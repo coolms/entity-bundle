@@ -1,0 +1,56 @@
+{
+    "name": "coolms/entity-bundle",
+    "description": "Symfony integration for coolms/entity: the bundle and its extension, the extras infrastructure compiler passes, API Platform property metadata factories for dynamic fields, and the entity search endpoint",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "keywords": [
+        "coolms",
+        "entity",
+        "symfony-bundle",
+        "api-platform",
+        "extras"
+    ],
+    "authors": [
+        {
+            "name": "Dmitry Popov"
+        }
+    ],
+    "require": {
+        "php": "^8.5",
+        "api-platform/core": "^4.2",
+        "coolms/core": "^1.0",
+        "coolms/core-bundle": "^1.0",
+        "coolms/entity": "^1.0",
+        "coolms/entity-module": "^1.0",
+        "symfony/config": "^8.0",
+        "symfony/dependency-injection": "^8.0",
+        "symfony/framework-bundle": "^8.0",
+        "symfony/http-foundation": "^8.0",
+        "symfony/http-kernel": "^8.0",
+        "symfony/routing": "^8.0",
+        "symfony/security-http": "^8.0",
+        "symfony/serializer": "^8.0"
+    },
+    "require-dev": {
+        "coolms/entity-doctrine": "^1.0",
+        "phpunit/phpunit": "^12.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "CoolMS\\EntityBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CoolMS\\EntityBundle\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
