@@ -32,6 +32,7 @@
         "symfony/serializer": "^8.0"
     },
     "require-dev": {
+        "coolms/core-doctrine": "^2.0",
         "coolms/entity-doctrine": "^2.0",
         "phpunit/phpunit": "^12.5"
     },
