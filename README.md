@@ -28,5 +28,16 @@ CoolMS\EntityBundle\EntityBundle::class => ['all' => true],
 ## Installation
 
 ```bash
-composer require coolms/entity-bundle
+composer require coolms/entity-bundle coolms/entity-doctrine
 ```
+
+> **The adapter is part of the install, not a second step.** This bundle pulls
+> in `coolms/entity-module`, which requires the virtual
+> `coolms/entity-persistence-implementation`. Only an adapter provides it, so
+> `composer require coolms/entity-bundle` on its own cannot resolve — Composer
+> reports that the virtual package "could not be found in any version", which
+> reads like a broken package rather than a missing argument.
+>
+> The hard failure is by design. The alternative is a platform that installs
+> cleanly and then cannot persist anything. `coolms/entity-doctrine` is the
+> adapter that exists today; substitute another if you write one.
