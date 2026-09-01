@@ -28,7 +28,7 @@ CoolMS\EntityBundle\EntityBundle::class => ['all' => true],
 ## Installation
 
 ```bash
-composer require coolms/entity-bundle coolms/entity-doctrine
+composer require coolms/entity-bundle coolms/core-doctrine coolms/entity-doctrine
 ```
 
 > **The adapter is part of the install, not a second step.** This bundle pulls
