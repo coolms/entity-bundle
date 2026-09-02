@@ -74,6 +74,12 @@ jobs:
       # Scoped deliberately.
       # --prefer-lowest goes on doing its real job on every
       # third-party floor.
+      #
+      # The pins are the RUNTIME CLOSURE, not the direct requires. A sibling
+      # reached only through another sibling is still resolved by this build,
+      # and a temporary constraint reaches it: coolms/core-module arrives via
+      # coolms/core-bundle and, left unpinned, resolved to v2.0.0-alpha1 while
+      # everything around it came from the branch.
       - name: Resolve the platform siblings from the generation branch
         run: |
           composer config minimum-stability dev
@@ -100,6 +106,7 @@ jobs:
           WITH='--with coolms/core:2.0.x-dev'
           WITH="$WITH --with coolms/core-bundle:2.0.x-dev"
           WITH="$WITH --with coolms/core-doctrine:2.0.x-dev"
+          WITH="$WITH --with coolms/core-module:2.0.x-dev"
           WITH="$WITH --with coolms/entity:2.0.x-dev"
           WITH="$WITH --with coolms/entity-doctrine:2.0.x-dev"
           WITH="$WITH --with coolms/entity-module:2.0.x-dev"
