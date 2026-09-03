@@ -33,12 +33,27 @@ final class VirtualFieldServicesPass implements CompilerPassInterface
     {
         foreach ($container->getDefinitions() as $definition) {
             $class = $definition->getClass();
-            if (null === $class || !class_exists($class)) {
+            if (null === $class) {
                 continue;
             }
-            if (is_subclass_of($class, VirtualFieldProviderInterface::class)
-                && !$definition->hasTag(VirtualFieldProviderInterface::TAG_NAME)
-            ) {
+            // A container holds classes from EVERY installed bundle, and some of
+            // them extend an optional dependency the application never installed
+            // -- doctrine-bundle ships a Twig extension and declares twig
+            // nowhere. Force-loading such a class is a fatal at compile time, in
+            // an application that has never mentioned Twig. A class that will not
+            // load is therefore "not ours", never an error.
+            //
+            // Invisible in the CoolMS application, which requires
+            // symfony/twig-bundle. Found from a clean checkout of a minimal
+            // application that requires neither library.
+            try {
+                if (!class_exists($class) || !is_subclass_of($class, VirtualFieldProviderInterface::class)) {
+                    continue;
+                }
+            } catch (\Throwable) {
+                continue;
+            }
+            if (!$definition->hasTag(VirtualFieldProviderInterface::TAG_NAME)) {
                 $definition->addTag(VirtualFieldProviderInterface::TAG_NAME);
             }
         }
