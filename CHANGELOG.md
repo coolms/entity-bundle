@@ -10,6 +10,35 @@ major number means here.
 history when this file was created. Every entry after that is written in the
 same commit as the change it describes.
 
+## 2.0.0-alpha2 - 2026-09-03
+
+### Fixed
+
+**`VirtualFieldServicesPass` no longer force-loads every class in the
+container.** It called `class_exists()` on the class of every definition, and
+a container holds classes from every installed bundle -- not only this one.
+Some of those extend an optional dependency the application never installed,
+and loading one is a fatal at container-build time:
+
+- `doctrine/doctrine-bundle` ships `Twig\DoctrineExtension`, which extends
+  `Twig\Extension\AbstractExtension`, while declaring `twig/twig` nowhere --
+  not in `require`, `require-dev` or `suggest`;
+- `symfony/translation` ships `Extractor\Visitor\*`, which implement
+  `PhpParser\NodeVisitor`, while `nikic/php-parser` is optional.
+
+Either one stopped an application booting with
+`Uncaught Error: Class "..." not found` in a tree that had never asked for
+the library. **Installing the missing library is not the fix** -- adding
+`twig/twig` to escape the first only produced the second. A class that will
+not load is one this bundle does not own, so it is skipped rather than
+treated as an error.
+
+Invisible in the CoolMS application, which requires `symfony/twig-bundle`.
+Found from a clean checkout of a minimal application that requires neither.
+
+A regression test plants an autoloader that throws for one class name --
+what PHP does when a parent class is missing -- and asserts the pass leaves
+the definition alone. It errors against 2.0.0-alpha1.
 ## 2.0.0-alpha1 - 2026-09-01
 
 **A pre-release. It carries no compatibility promise**, which is the honest
