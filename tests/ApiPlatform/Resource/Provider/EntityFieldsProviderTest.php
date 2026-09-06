@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Phase X-2.5b -- provider surfaces stored AND virtual fields.
+ * Provider surfaces stored AND virtual fields.
  */
 final class EntityFieldsProviderTest extends TestCase
 {

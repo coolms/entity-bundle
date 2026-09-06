@@ -16,7 +16,7 @@ use ReflectionClass;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Phase X-2.5 — Provider behind `GET /api/v1/entity/{alias}/filters`.
+ * Provider behind `GET /api/v1/entity/{alias}/filters`.
  *
  * Resolves the URL alias to its FQCN via
  * `EntityAliasRegistryInterface` (the same Phase 2 dictionary the
@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * just received from `/api/v1/entity/types` (or an equivalent
  * dictionary endpoint).
  *
- * Phase X-2.5b -- additionally surfaces virtual (computed) fields
+ * Additionally surfaces virtual (computed) fields
  * via `VirtualFieldRegistryInterface`. Returned alongside stored
  * fields under the resource's `virtualFields` slot; empty list
  * when no virtual fields are registered for the alias.

@@ -49,7 +49,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
  * Alias bindings for `EntityAliasRegistryInterface`,
  * `EntityFieldDescriptorInterface`,
  * `EntityAliasResolverInterface`, and `VirtualFieldRegistryInterface`
- * carry over from the prior Phase 2 / Phase X-2.5 wiring.
+ * carry over from the earlier wiring.
  */
 final class Extension extends BaseExtension
 {
@@ -60,13 +60,13 @@ final class Extension extends BaseExtension
         // can override the alias to point at a composite implementation.
         $container->setAlias(EntityAliasRegistryInterface::class, ClassMetaEntityAliasRegistry::class);
 
-        // Phase X-2.5 -- Reflection-based entity field descriptor.
+        // Reflection-based entity field descriptor.
         $container->setAlias(EntityFieldDescriptorInterface::class, ReflectionEntityFieldDescriptor::class);
 
         // entity:find / entity:findAll widget adapter.
         $container->setAlias(EntityAliasResolverInterface::class, RepositoryEntityAliasResolver::class);
 
-        // Phase X-2.5b -- virtual-field registry.
+        // Virtual-field registry.
         $container->setAlias(VirtualFieldRegistryInterface::class, VirtualFieldRegistry::class);
 
         // Entity resolvers are collected into EntityResolverChain by this tag.
