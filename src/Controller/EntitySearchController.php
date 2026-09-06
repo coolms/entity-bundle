@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 /**
  * Generic entity-picker search endpoint.
  *
- * ⚠️ Classified INTERNAL, 2026-09-04, and deliberately absent from the public
+ * !! Classified INTERNAL, 2026-09-04, and deliberately absent from the public
  * API reference. The reasoning was already here -- the picker is admin-side and
  * authentication keeps it off the public surface -- but the bucket was never
  * recorded, so every sweep of the API surface reopened the question. It is

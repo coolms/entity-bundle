@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * `EntityAliasRegistryInterface` (the same Phase 2 dictionary the
  * template-validation pipeline uses) and asks
  * `EntityFieldDescriptorInterface` for the descriptor list. 404
- * when the alias is unknown — matches the wizard's "entity-type
+ * when the alias is unknown -- matches the wizard's "entity-type
  * picker" contract: the frontend should only ever pass aliases it
  * just received from `/api/v1/entity/types` (or an equivalent
  * dictionary endpoint).
@@ -67,7 +67,7 @@ final readonly class EntityFieldsProvider implements ProviderInterface
      * Entity-declared fields first, then anything contributed that the entity
      * does not already declare.
      *
-     * The entity's own `#[FieldMeta]` wins on a name collision — it is the
+     * The entity's own `#[FieldMeta]` wins on a name collision -- it is the
      * more specific statement, and silently letting a grid column override it
      * would make the endpoint's answer depend on service iteration order.
      *

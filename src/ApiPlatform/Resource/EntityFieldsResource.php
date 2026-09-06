@@ -17,7 +17,7 @@ use CoolMS\EntityBundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
  *   GET /api/v1/entity/{alias}/filters
  *
  * Consumed by the document-generation wizard frontend (X-2.6) to
- * render filter UI dynamically per entity type. ROLE_ADMIN — the
+ * render filter UI dynamically per entity type. ROLE_ADMIN -- the
  * wizard is admin-only and the descriptor reveals internal
  * structure that shouldn't leak to anonymous callers.
  *

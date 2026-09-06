@@ -20,14 +20,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * Peer to `CoreBundle` at the L0 layer; hosts entity concepts
  * extracted out of Core:
  *
- *  - `Domain/Attribute/` — `ClassMeta`, `FieldMeta` (entity metadata)
+ *  - `Domain/Attribute/` -- `ClassMeta`, `FieldMeta` (entity metadata)
  *  - `Application/` -- entity resolver chain, alias registry, and
  *    the canonical RQL-based search contract surface
  *    (`RqlRepositoryInterface` from packages/rql, `FreeTextProjector`
  *    for picker free-text projection)
- *  - `Infrastructure/` — reflection-based field extractor + tagged
+ *  - `Infrastructure/` -- reflection-based field extractor + tagged
  *    repository registry
- *  - `Infrastructure/Doctrine/` — `ClassMetaEntityAliasRegistry`
+ *  - `Infrastructure/Doctrine/` -- `ClassMetaEntityAliasRegistry`
  *
  * The split keeps Core focused on framework primitives (ApiManifest,
  * config loaders, factory plumbing, hierarchy generators) while

@@ -38,7 +38,7 @@ class EntityFactoryTest extends TestCase
     private EntityFactory $factory;
     private object $entityStub;
 
-    // process() — array input
+    // process() -- array input
 
     /**
      * @throws ExceptionInterface
@@ -59,7 +59,7 @@ class EntityFactoryTest extends TestCase
         $this->factory->process(['name' => 'test']);
     }
 
-    // process() — string input
+    // process() -- string input
 
     public function testProcessWithJsonStringDecodesBeforeDenormalizing(): void
     {
