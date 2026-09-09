@@ -32,7 +32,7 @@ composer require coolms/entity-bundle coolms/core-doctrine coolms/entity-doctrin
 ```
 
 > **The adapter is part of the install, not a second step.** This bundle pulls
-> in `coolms/entity-module`, which requires the virtual
+> in `coolms/entity-app`, which requires the virtual
 > `coolms/entity-persistence-implementation`. Only an adapter provides it, so
 > `composer require coolms/entity-bundle` on its own cannot resolve — Composer
 > reports that the virtual package "could not be found in any version", which

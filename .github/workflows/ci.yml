@@ -77,7 +77,7 @@ jobs:
       #
       # The pins are the RUNTIME CLOSURE, not the direct requires. A sibling
       # reached only through another sibling is still resolved by this build,
-      # and a temporary constraint reaches it: coolms/core-module arrives via
+      # and a temporary constraint reaches it: coolms/core-app arrives via
       # coolms/core-bundle and, left unpinned, resolved to v2.0.0-alpha1 while
       # everything around it came from the branch.
       - name: Resolve the platform siblings from the generation branch
@@ -88,7 +88,7 @@ jobs:
           # resolved, so this list cannot go stale without the build saying so.
           php -r '
             $d = json_decode(file_get_contents("composer.json"), true);
-            $known = ["coolms/core", "coolms/core-bundle", "coolms/core-doctrine", "coolms/entity", "coolms/entity-doctrine", "coolms/entity-module"];
+            $known = ["coolms/core", "coolms/core-bundle", "coolms/core-doctrine", "coolms/entity", "coolms/entity-doctrine", "coolms/entity-app"];
             $seen = array_merge(array_keys($d["require"] ?? []),
                                 array_keys($d["require-dev"] ?? []));
             $new = array_diff(array_filter($seen,
@@ -106,10 +106,10 @@ jobs:
           WITH='--with coolms/core:2.0.x-dev'
           WITH="$WITH --with coolms/core-bundle:2.0.x-dev"
           WITH="$WITH --with coolms/core-doctrine:2.0.x-dev"
-          WITH="$WITH --with coolms/core-module:2.0.x-dev"
+          WITH="$WITH --with coolms/core-app:2.0.x-dev"
           WITH="$WITH --with coolms/entity:2.0.x-dev"
           WITH="$WITH --with coolms/entity-doctrine:2.0.x-dev"
-          WITH="$WITH --with coolms/entity-module:2.0.x-dev"
+          WITH="$WITH --with coolms/entity-app:2.0.x-dev"
           if [ "${{ matrix.deps }}" = 'lowest' ]; then
             composer update --prefer-lowest --prefer-dist --no-interaction --no-progress $WITH
           else

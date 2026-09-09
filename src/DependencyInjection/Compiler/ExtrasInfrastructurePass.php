@@ -14,7 +14,7 @@ use CoolMS\Entity\Resolver\EntityResolverChain;
 use CoolMS\Entity\Service\EntitySchemaLookup;
 use CoolMS\EntityBundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
 use CoolMS\EntityBundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
-use CoolMS\EntityModule\Serializer\ExtrasFlatteningNormalizer;
+use CoolMS\EntityApp\Serializer\ExtrasFlatteningNormalizer;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
