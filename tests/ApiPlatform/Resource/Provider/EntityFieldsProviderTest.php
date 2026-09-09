@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\Tests\ApiPlatform\Resource\Provider;
+namespace CoolMS\Entity\Bundle\Tests\ApiPlatform\Resource\Provider;
 
 use ApiPlatform\Metadata\Get;
 use CoolMS\Entity\Field\EntityFieldDescriptorInterface;
@@ -10,13 +10,13 @@ use CoolMS\Entity\Field\FieldDescriptor;
 use CoolMS\Entity\Filter\VirtualFieldDescriptor;
 use CoolMS\Entity\Registry\EntityAliasRegistryInterface;
 use CoolMS\Entity\VirtualField\VirtualFieldRegistryInterface;
-use CoolMS\EntityBundle\ApiPlatform\Resource\EntityFieldsResource;
-use CoolMS\EntityBundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
+use CoolMS\Entity\Bundle\ApiPlatform\Resource\EntityFieldsResource;
+use CoolMS\Entity\Bundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Phase X-2.5b -- provider surfaces stored AND virtual fields.
+ * Provider surfaces stored AND virtual fields.
  */
 final class EntityFieldsProviderTest extends TestCase
 {

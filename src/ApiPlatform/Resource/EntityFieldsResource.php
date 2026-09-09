@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\ApiPlatform\Resource;
+namespace CoolMS\Entity\Bundle\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use CoolMS\Entity\Field\FieldDescriptor;
 use CoolMS\Entity\Filter\VirtualFieldDescriptor;
-use CoolMS\EntityBundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
+use CoolMS\Entity\Bundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
 
 /**
- * Phase X-2.5 — read-only resource exposing the filterable /
+ * Read-only resource exposing the filterable /
  * sortable / searchable field set for an entity alias.
  *
  *   GET /api/v1/entity/{alias}/filters
  *
  * Consumed by the document-generation wizard frontend (X-2.6) to
- * render filter UI dynamically per entity type. ROLE_ADMIN — the
+ * render filter UI dynamically per entity type. ROLE_ADMIN -- the
  * wizard is admin-only and the descriptor reveals internal
  * structure that shouldn't leak to anonymous callers.
  *
- * Phase X-2.5b -- the `virtualFields` slot surfaces computed
+ * The `virtualFields` slot surfaces computed
  * (non-column) fields registered via `#[VirtualField]` or
  * `VirtualFieldProviderInterface`. Defaults to `[]` so pre-X-2.5b
  * consumers see the unchanged response shape.

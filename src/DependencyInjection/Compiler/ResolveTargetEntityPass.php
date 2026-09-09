@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\DependencyInjection\Compiler;
+namespace CoolMS\Entity\Bundle\DependencyInjection\Compiler;
 
 use CoolMS\Entity\Doctrine\Tree\DoctrineNestedSetOperator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

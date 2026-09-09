@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\Tests\Factory;
+namespace CoolMS\Entity\Bundle\Tests\Factory;
 
 use CoolMS\Core\Identifier\IdentifierProviderInterface;
 use CoolMS\Core\Service\DataFormat;
-use CoolMS\EntityBundle\Factory\EntityFactory;
+use CoolMS\Entity\Bundle\Factory\EntityFactory;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,7 +38,7 @@ class EntityFactoryTest extends TestCase
     private EntityFactory $factory;
     private object $entityStub;
 
-    // process() — array input
+    // process() -- array input
 
     /**
      * @throws ExceptionInterface
@@ -59,7 +59,7 @@ class EntityFactoryTest extends TestCase
         $this->factory->process(['name' => 'test']);
     }
 
-    // process() — string input
+    // process() -- string input
 
     public function testProcessWithJsonStringDecodesBeforeDenormalizing(): void
     {

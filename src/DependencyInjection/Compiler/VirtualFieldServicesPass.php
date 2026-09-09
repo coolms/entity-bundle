@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\DependencyInjection\Compiler;
+namespace CoolMS\Entity\Bundle\DependencyInjection\Compiler;
 
 use CoolMS\Entity\VirtualField\VirtualFieldProviderInterface;
 use CoolMS\Entity\VirtualField\VirtualFieldRegistry;
@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Phase X-2.5b -- (re-)tags every `VirtualFieldProviderInterface`
+ * (re-)tags every `VirtualFieldProviderInterface`
  * implementation and binds the resulting iterable to
  * `VirtualFieldRegistry`'s constructor.
  *

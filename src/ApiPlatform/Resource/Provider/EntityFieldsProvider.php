@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\ApiPlatform\Resource\Provider;
+namespace CoolMS\Entity\Bundle\ApiPlatform\Resource\Provider;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
@@ -11,23 +11,23 @@ use CoolMS\Entity\Field\FieldDescriptor;
 use CoolMS\Entity\Field\FilterFieldContributorInterface;
 use CoolMS\Entity\Registry\EntityAliasRegistryInterface;
 use CoolMS\Entity\VirtualField\VirtualFieldRegistryInterface;
-use CoolMS\EntityBundle\ApiPlatform\Resource\EntityFieldsResource;
+use CoolMS\Entity\Bundle\ApiPlatform\Resource\EntityFieldsResource;
 use ReflectionClass;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Phase X-2.5 — Provider behind `GET /api/v1/entity/{alias}/filters`.
+ * Provider behind `GET /api/v1/entity/{alias}/filters`.
  *
  * Resolves the URL alias to its FQCN via
- * `EntityAliasRegistryInterface` (the same Phase 2 dictionary the
+ * `EntityAliasRegistryInterface` (the same dictionary the
  * template-validation pipeline uses) and asks
  * `EntityFieldDescriptorInterface` for the descriptor list. 404
- * when the alias is unknown — matches the wizard's "entity-type
+ * when the alias is unknown -- matches the wizard's "entity-type
  * picker" contract: the frontend should only ever pass aliases it
  * just received from `/api/v1/entity/types` (or an equivalent
  * dictionary endpoint).
  *
- * Phase X-2.5b -- additionally surfaces virtual (computed) fields
+ * Additionally surfaces virtual (computed) fields
  * via `VirtualFieldRegistryInterface`. Returned alongside stored
  * fields under the resource's `virtualFields` slot; empty list
  * when no virtual fields are registered for the alias.
@@ -67,7 +67,7 @@ final readonly class EntityFieldsProvider implements ProviderInterface
      * Entity-declared fields first, then anything contributed that the entity
      * does not already declare.
      *
-     * The entity's own `#[FieldMeta]` wins on a name collision — it is the
+     * The entity's own `#[FieldMeta]` wins on a name collision -- it is the
      * more specific statement, and silently letting a grid column override it
      * would make the endpoint's answer depend on service iteration order.
      *

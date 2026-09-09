@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\Factory;
+namespace CoolMS\Entity\Bundle\Factory;
 
 use CoolMS\Core\Identifier\IdentifierProviderInterface;
 use CoolMS\Core\Service\DataFormat;

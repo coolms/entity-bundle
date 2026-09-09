@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\DependencyInjection;
+namespace CoolMS\Entity\Bundle\DependencyInjection;
 
-use CoolMS\EntityBundle\Factory\EntityFactory;
+use CoolMS\Entity\Bundle\Factory\EntityFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
