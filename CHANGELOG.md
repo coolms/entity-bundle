@@ -10,6 +10,23 @@ major number means here.
 history when this file was created. Every entry after that is written in the
 same commit as the change it describes.
 
+## 2.0.0-alpha3 - 2026-09-09
+### Changed
+
+!! **The namespace nests under the domain root: `CoolMS\EntityBundle\` becomes
+`CoolMS\Entity\Bundle\`.** The package name is unchanged. Every layer in a family
+now carries a segment equal to its suffix, and the domain package keeps the root
+prefix.
+
+This release also follows the application tier's rename to
+`coolms/entity-application`.
+
+- The alias registry is described as the dictionary it is, rather than by the
+  slice that added it.
+- The entity-picker endpoint is documented.
+- Comments, docblocks and changelogs are ascii.
+- Development-only files are export-ignored.
+
 ## 2.0.0-alpha2 - 2026-09-03
 
 ### Fixed
