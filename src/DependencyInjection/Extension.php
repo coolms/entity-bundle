@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\DependencyInjection;
+namespace CoolMS\Entity\Bundle\DependencyInjection;
 
 use CoolMS\Entity\Contract\EntityTypeSchemaContributorInterface;
 use CoolMS\Entity\Contract\ExtrasNormalizationExclusionInterface;
@@ -22,12 +22,12 @@ use CoolMS\Entity\Resolver\EntityResolverInterface;
 use CoolMS\Entity\Service\EntitySchemaLookup;
 use CoolMS\Entity\VirtualField\VirtualFieldRegistry;
 use CoolMS\Entity\VirtualField\VirtualFieldRegistryInterface;
-use CoolMS\EntityBundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
-use CoolMS\EntityBundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
-use CoolMS\EntityBundle\Factory\EntityFactoryFactory;
-use CoolMS\EntityApp\Field\ReflectionEntityFieldDescriptor;
-use CoolMS\EntityApp\Resolver\RepositoryEntityAliasResolver;
-use CoolMS\EntityApp\Serializer\ExtrasFlatteningNormalizer;
+use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
+use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
+use CoolMS\Entity\Bundle\Factory\EntityFactoryFactory;
+use CoolMS\Entity\Application\Field\ReflectionEntityFieldDescriptor;
+use CoolMS\Entity\Application\Resolver\RepositoryEntityAliasResolver;
+use CoolMS\Entity\Application\Serializer\ExtrasFlatteningNormalizer;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;

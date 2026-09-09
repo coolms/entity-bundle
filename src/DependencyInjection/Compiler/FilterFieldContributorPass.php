@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\DependencyInjection\Compiler;
+namespace CoolMS\Entity\Bundle\DependencyInjection\Compiler;
 
-use CoolMS\EntityBundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
+use CoolMS\Entity\Bundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

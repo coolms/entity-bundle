@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\Tests\DependencyInjection\Compiler;
+namespace CoolMS\Entity\Bundle\Tests\DependencyInjection\Compiler;
 
-use CoolMS\EntityBundle\DependencyInjection\Compiler\VirtualFieldServicesPass;
+use CoolMS\Entity\Bundle\DependencyInjection\Compiler\VirtualFieldServicesPass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -33,7 +33,7 @@ final class VirtualFieldServicesPassTest extends TestCase
     #[Test]
     public function aClassThatCannotBeLoadedIsSkippedRatherThanFatal(): void
     {
-        $unloadable = 'CoolMS\\EntityBundle\\Tests\\Fixture\\NeedsAnAbsentParent';
+        $unloadable = 'CoolMS\\Entity\\Bundle\\Tests\\Fixture\\NeedsAnAbsentParent';
 
         // What PHP does when a class file loads but its parent does not.
         $autoloader = static function (string $class) use ($unloadable): void {

@@ -10,7 +10,7 @@ Symfony integration for [`coolms/entity`](https://packagist.org/packages/coolms/
 Register in `config/bundles.php`:
 
 ```php
-CoolMS\EntityBundle\EntityBundle::class => ['all' => true],
+CoolMS\Entity\Bundle\EntityBundle::class => ['all' => true],
 ```
 
 - `DependencyInjection\Extension` -- wires the alias registry, the schema
@@ -32,7 +32,7 @@ composer require coolms/entity-bundle coolms/core-doctrine coolms/entity-doctrin
 ```
 
 > **The adapter is part of the install, not a second step.** This bundle pulls
-> in `coolms/entity-app`, which requires the virtual
+> in `coolms/entity-application`, which requires the virtual
 > `coolms/entity-persistence-implementation`. Only an adapter provides it, so
 > `composer require coolms/entity-bundle` on its own cannot resolve — Composer
 > reports that the virtual package "could not be found in any version", which

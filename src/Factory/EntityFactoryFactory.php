@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\Factory;
+namespace CoolMS\Entity\Bundle\Factory;
 
 use CoolMS\Entity\Factory\EntityFactoryFactoryInterface;
 use CoolMS\Entity\Factory\EntityFactoryInterface;

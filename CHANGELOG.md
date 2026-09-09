@@ -62,7 +62,7 @@ composer require coolms/entity-bundle:^2.0 coolms/core-doctrine:^2.0 coolms/enti
 release, so this loosening applies to what actually needs it and nothing else.
 
 !! **The adapter is part of the command, not an extra.** `coolms/entity-
-bundle` reaches BOTH `coolms/core-app` and `coolms/entity-app`, and each
+bundle` reaches BOTH `coolms/core-application` and `coolms/entity-application`, and each
 requires its own persistence implementation -- virtual packages: nothing
 provides it until you choose an implementation, and Composer reports the
 virtual name, which reads like a broken package rather than a missing
@@ -124,7 +124,7 @@ their own APIs.
 - `coolms/core`: `^1.0` to `^2.0`
 - `coolms/core-bundle`: `^1.0` to `^2.0`
 - `coolms/entity`: `^1.0` to `^2.0`
-- `coolms/entity-app`: `^1.0` to `^2.0`
+- `coolms/entity-application`: `^1.0` to `^2.0`
 - `coolms/entity-doctrine`: `^1.0` to `^2.0`
 
 

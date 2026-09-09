@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\Controller;
+namespace CoolMS\Entity\Bundle\Controller;
 
 use CoolMS\Core\Api\ApiOperation;
 use CoolMS\Entity\Resolver\EntityResolverChainInterface;

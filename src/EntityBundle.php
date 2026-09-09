@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle;
+namespace CoolMS\Entity\Bundle;
 
-use CoolMS\CoreBundle\AbstractCoolmsBundle;
+use CoolMS\Core\Bundle\AbstractCoolmsBundle;
 use CoolMS\Entity\Field\FilterFieldContributorInterface;
-use CoolMS\EntityBundle\DependencyInjection\Compiler\ExtrasInfrastructurePass;
-use CoolMS\EntityBundle\DependencyInjection\Compiler\FilterFieldContributorPass;
-use CoolMS\EntityBundle\DependencyInjection\Compiler\ResolveTargetEntityPass;
-use CoolMS\EntityBundle\DependencyInjection\Compiler\VirtualFieldServicesPass;
-use CoolMS\EntityBundle\DependencyInjection\Extension;
+use CoolMS\Entity\Bundle\DependencyInjection\Compiler\ExtrasInfrastructurePass;
+use CoolMS\Entity\Bundle\DependencyInjection\Compiler\FilterFieldContributorPass;
+use CoolMS\Entity\Bundle\DependencyInjection\Compiler\ResolveTargetEntityPass;
+use CoolMS\Entity\Bundle\DependencyInjection\Compiler\VirtualFieldServicesPass;
+use CoolMS\Entity\Bundle\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

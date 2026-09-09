@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CoolMS\EntityBundle\ApiPlatform\Resource\Provider;
+namespace CoolMS\Entity\Bundle\ApiPlatform\Resource\Provider;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
@@ -11,7 +11,7 @@ use CoolMS\Entity\Field\FieldDescriptor;
 use CoolMS\Entity\Field\FilterFieldContributorInterface;
 use CoolMS\Entity\Registry\EntityAliasRegistryInterface;
 use CoolMS\Entity\VirtualField\VirtualFieldRegistryInterface;
-use CoolMS\EntityBundle\ApiPlatform\Resource\EntityFieldsResource;
+use CoolMS\Entity\Bundle\ApiPlatform\Resource\EntityFieldsResource;
 use ReflectionClass;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
