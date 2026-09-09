@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Provider behind `GET /api/v1/entity/{alias}/filters`.
  *
  * Resolves the URL alias to its FQCN via
- * `EntityAliasRegistryInterface` (the same Phase 2 dictionary the
+ * `EntityAliasRegistryInterface` (the same dictionary the
  * template-validation pipeline uses) and asks
  * `EntityFieldDescriptorInterface` for the descriptor list. 404
  * when the alias is unknown -- matches the wizard's "entity-type
