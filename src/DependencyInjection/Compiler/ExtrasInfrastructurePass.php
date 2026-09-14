@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace CoolMS\Entity\Bundle\DependencyInjection\Compiler;
 
+use CoolMS\Entity\Application\Serializer\ExtrasFlatteningNormalizer;
+use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
+use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
 use CoolMS\Entity\Contract\EntityTypeSchemaContributorInterface;
 use CoolMS\Entity\Doctrine\Cache\ExtrasSchemaCacheInvalidator;
 use CoolMS\Entity\Doctrine\Listener\ExtrasValidationListener;
@@ -12,9 +15,6 @@ use CoolMS\Entity\Doctrine\Mapping\TraitMappingDriver;
 use CoolMS\Entity\Registry\EntityAliasRegistry;
 use CoolMS\Entity\Resolver\EntityResolverChain;
 use CoolMS\Entity\Service\EntitySchemaLookup;
-use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
-use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
-use CoolMS\Entity\Application\Serializer\ExtrasFlatteningNormalizer;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

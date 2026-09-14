@@ -6,9 +6,9 @@ namespace CoolMS\Entity\Bundle\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use CoolMS\Entity\Bundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
 use CoolMS\Entity\Field\FieldDescriptor;
 use CoolMS\Entity\Filter\VirtualFieldDescriptor;
-use CoolMS\Entity\Bundle\ApiPlatform\Resource\Provider\EntityFieldsProvider;
 
 /**
  * Read-only resource exposing the filterable /
