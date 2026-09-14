@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace CoolMS\Entity\Bundle;
 
 use CoolMS\Core\Bundle\AbstractCoolmsBundle;
-use CoolMS\Entity\Field\FilterFieldContributorInterface;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\ExtrasInfrastructurePass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\FilterFieldContributorPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\ResolveTargetEntityPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\VirtualFieldServicesPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Extension;
+use CoolMS\Entity\Field\FilterFieldContributorInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

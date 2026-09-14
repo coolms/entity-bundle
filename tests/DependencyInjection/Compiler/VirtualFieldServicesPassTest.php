@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CoolMS\Entity\Bundle\Tests\DependencyInjection\Compiler;
 
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\VirtualFieldServicesPass;
+use Error;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -38,7 +39,7 @@ final class VirtualFieldServicesPassTest extends TestCase
         // What PHP does when a class file loads but its parent does not.
         $autoloader = static function (string $class) use ($unloadable): void {
             if ($class === $unloadable) {
-                throw new \Error('Class "Absent" not found');
+                throw new Error('Class "Absent" not found');
             }
         };
         spl_autoload_register($autoloader, true, true);
@@ -47,7 +48,7 @@ final class VirtualFieldServicesPassTest extends TestCase
             $container = new ContainerBuilder();
             $container->setDefinition('not.ours', new Definition($unloadable));
 
-            (new VirtualFieldServicesPass())->process($container);
+            new VirtualFieldServicesPass()->process($container);
 
             self::assertTrue($container->hasDefinition('not.ours'), 'the definition survives untouched');
         } finally {

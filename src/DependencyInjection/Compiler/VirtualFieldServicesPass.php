@@ -9,6 +9,7 @@ use CoolMS\Entity\VirtualField\VirtualFieldRegistry;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Throwable;
 
 /**
  * (re-)tags every `VirtualFieldProviderInterface`
@@ -50,7 +51,7 @@ final class VirtualFieldServicesPass implements CompilerPassInterface
                 if (!class_exists($class) || !is_subclass_of($class, VirtualFieldProviderInterface::class)) {
                     continue;
                 }
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 continue;
             }
             if (!$definition->hasTag(VirtualFieldProviderInterface::TAG_NAME)) {
