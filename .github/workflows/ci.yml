@@ -110,9 +110,6 @@ jobs:
           WITH="$WITH --with coolms/entity:2.0.x-dev"
           WITH="$WITH --with coolms/entity-doctrine:2.0.x-dev"
           WITH="$WITH --with coolms/entity-application:2.0.x-dev"
-          # The alias port arrives with coolms/dtmpl 2.2; until that tag exists
-          # the engine is resolved from its develop branch too.
-          WITH="$WITH --with coolms/dtmpl:2.2.x-dev"
           if [ "${{ matrix.deps }}" = 'lowest' ]; then
             composer update --prefer-lowest --prefer-dist --no-interaction --no-progress $WITH
           else
