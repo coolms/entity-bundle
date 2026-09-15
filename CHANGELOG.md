@@ -14,6 +14,10 @@ same commit as the change it describes.
 
 ### Added
 
+- Declares `support` -- `issues` and `source` -- so a page imported from this
+  package, and the catalogue, know where a correction is filed. Packagist filled
+  the gap from GitHub when the manifest was silent; the declared field is the
+  one that holds on any registry.
 **`Dtmpl\TemplateAliasResolver` answers the template engine's `@alias`
 question from the entity alias registry.** `coolms/dtmpl` declares
 `Validation\AliasResolverInterface` and its validator asks it which class an
