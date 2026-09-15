@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace CoolMS\Entity\Bundle\DependencyInjection;
 
+use CoolMS\Dtmpl\Validation\AliasResolverInterface;
 use CoolMS\Entity\Application\Field\ReflectionEntityFieldDescriptor;
 use CoolMS\Entity\Application\Resolver\RepositoryEntityAliasResolver;
 use CoolMS\Entity\Application\Serializer\ExtrasFlatteningNormalizer;
 use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
 use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
+use CoolMS\Entity\Bundle\Dtmpl\TemplateAliasResolver;
 use CoolMS\Entity\Bundle\Factory\EntityFactoryFactory;
 use CoolMS\Entity\Contract\EntityTypeSchemaContributorInterface;
 use CoolMS\Entity\Contract\ExtrasNormalizationExclusionInterface;
@@ -59,6 +61,13 @@ final class Extension extends BaseExtension
         // (ClassMeta-driven). Bundles that ship dynamic alias sources
         // can override the alias to point at a composite implementation.
         $container->setAlias(EntityAliasRegistryInterface::class, ClassMetaEntityAliasRegistry::class);
+
+        // The template validator's `@alias` dictionary, answered from the
+        // same registry. coolms/dtmpl declares the port; this bundle owns the
+        // aliases, so it provides the answer.
+        $container->register(TemplateAliasResolver::class)
+            ->setAutowired(true);
+        $container->setAlias(AliasResolverInterface::class, TemplateAliasResolver::class);
 
         // Reflection-based entity field descriptor.
         $container->setAlias(EntityFieldDescriptorInterface::class, ReflectionEntityFieldDescriptor::class);

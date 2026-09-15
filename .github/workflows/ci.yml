@@ -88,7 +88,7 @@ jobs:
           # resolved, so this list cannot go stale without the build saying so.
           php -r '
             $d = json_decode(file_get_contents("composer.json"), true);
-            $known = ["coolms/core", "coolms/core-bundle", "coolms/core-doctrine", "coolms/entity", "coolms/entity-doctrine", "coolms/entity-application"];
+            $known = ["coolms/core", "coolms/core-bundle", "coolms/core-doctrine", "coolms/entity", "coolms/entity-doctrine", "coolms/entity-application", "coolms/dtmpl"];
             $seen = array_merge(array_keys($d["require"] ?? []),
                                 array_keys($d["require-dev"] ?? []));
             $new = array_diff(array_filter($seen,
@@ -110,6 +110,9 @@ jobs:
           WITH="$WITH --with coolms/entity:2.0.x-dev"
           WITH="$WITH --with coolms/entity-doctrine:2.0.x-dev"
           WITH="$WITH --with coolms/entity-application:2.0.x-dev"
+          # The alias port arrives with coolms/dtmpl 2.2; until that tag exists
+          # the engine is resolved from its develop branch too.
+          WITH="$WITH --with coolms/dtmpl:2.2.x-dev"
           if [ "${{ matrix.deps }}" = 'lowest' ]; then
             composer update --prefer-lowest --prefer-dist --no-interaction --no-progress $WITH
           else
