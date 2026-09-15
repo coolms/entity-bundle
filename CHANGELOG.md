@@ -10,6 +10,27 @@ major number means here.
 history when this file was created. Every entry after that is written in the
 same commit as the change it describes.
 
+## Unreleased
+
+### Added
+
+**`Dtmpl\TemplateAliasResolver` answers the template engine's `@alias`
+question from the entity alias registry.** `coolms/dtmpl` declares
+`Validation\AliasResolverInterface` and its validator asks it which class an
+`@alias` stands for; this bundle owns the aliases `ClassMeta` declares, so it
+provides the answer: `resolve()` admits every registered alias, singular and
+collection alike, and `knownAliases()` lists the singular ones an author is told
+to choose from when a typo is refused. The extension registers the resolver and
+aliases the port to it, beside the registry alias it reads from.
+
+### Changed
+
+**Requires `coolms/dtmpl` `^2.2` directly.** The engine was already installed
+through `coolms/entity-application`; the resolver imports it, so the dependency
+is named where it is used, at the floor that carries the port. Until 2.2.0 is
+tagged, CI resolves the engine from its `develop` branch like the other
+siblings.
+
 ## 2.0.0-alpha3 - 2026-09-09
 ### Changed
 
