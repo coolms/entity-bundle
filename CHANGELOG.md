@@ -12,6 +12,18 @@ same commit as the change it describes.
 
 ## Unreleased
 
+### Removed
+
+- The bundle no longer registers or wires
+  `CoolMS\Entity\Doctrine\Cache\ExtrasSchemaCacheInvalidator`, which
+  `coolms/entity-doctrine` removes in the same generation. None of its four
+  operations had a reader: the Doctrine metadata key it deleted is not the key
+  Doctrine writes, the `dynamic_schema_*` tags it invalidated are written by
+  nothing, the API Platform key it deleted lives in a different pool under a
+  different name, and the runtime metadata it reset is never built from field
+  definitions. A caller that injected it by class name will no longer find the
+  service; there is no replacement, because there was no effect to replace.
+
 ### Added
 
 - Declares `support` -- `issues` and `source` -- so a page imported from this
