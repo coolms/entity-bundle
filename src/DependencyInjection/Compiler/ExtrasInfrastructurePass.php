@@ -8,7 +8,6 @@ use CoolMS\Entity\Application\Serializer\ExtrasFlatteningNormalizer;
 use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
 use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
 use CoolMS\Entity\Contract\EntityTypeSchemaContributorInterface;
-use CoolMS\Entity\Doctrine\Cache\ExtrasSchemaCacheInvalidator;
 use CoolMS\Entity\Doctrine\Listener\ExtrasValidationListener;
 use CoolMS\Entity\Doctrine\Mapping\ExtrasFieldMappingDriver;
 use CoolMS\Entity\Doctrine\Mapping\TraitMappingDriver;
@@ -93,12 +92,6 @@ final class ExtrasInfrastructurePass implements CompilerPassInterface
                 ->setAutowired(false);
         }
 
-        if ($container->has(ExtrasSchemaCacheInvalidator::class)) {
-            $container->findDefinition(ExtrasSchemaCacheInvalidator::class)
-                ->setArgument('$cache', new Reference('cache.app.taggable'))
-                ->setArgument('$aliasRegistry', $aliasRegistryRef);
-        }
-
         if ($container->has(ExtrasFlatteningNormalizer::class)) {
             $container->findDefinition(ExtrasFlatteningNormalizer::class)
                 ->setArgument('$objectNormalizer', new Reference('serializer.normalizer.object'))
@@ -110,9 +103,9 @@ final class ExtrasInfrastructurePass implements CompilerPassInterface
         // The TAGS are the load-bearing part here. The Extension adds them, but
         // the `App\` glob replaces the whole definition and they go with it --
         // leaving a service that is wired, injectable, and never called by
-        // Doctrine. (The sibling ExtrasSchemaCacheInvalidatorListener survives
-        // the same scan only because it carries #[AsDoctrineListener], which
-        // autoconfiguration re-applies.) Without this block the listener is
+        // Doctrine. (A listener that carries #[AsDoctrineListener] survives the
+        // same scan, because autoconfiguration re-applies the attribute; this
+        // one is tagged here instead.) Without this block the listener is
         // dead code and every `required` extras field is silently unenforced.
         if ($container->has(ExtrasValidationListener::class)) {
             $container->findDefinition(ExtrasValidationListener::class)
