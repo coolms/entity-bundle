@@ -8,6 +8,7 @@ use CoolMS\Core\Bundle\AbstractCoolmsBundle;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\ExtrasInfrastructurePass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\FilterFieldContributorPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\ResolveTargetEntityPass;
+use CoolMS\Entity\Bundle\DependencyInjection\Compiler\TemplateWidgetSwitchPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\VirtualFieldServicesPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Extension;
 use CoolMS\Entity\Field\FilterFieldContributorInterface;
@@ -65,6 +66,11 @@ class EntityBundle extends AbstractCoolmsBundle
         // re-registers the provider after bundle extensions and silently
         // discards their setArgument() calls.
         $container->addCompilerPass(new FilterFieldContributorPass());
+        // Priority 10, between autoconfiguration (100), which tags every widget
+        // renderer an application's glob registers, and dtmpl's
+        // WidgetRegistryPass (0), which collects the tags. At 0 the order would
+        // fall to bundle registration order.
+        $container->addCompilerPass(new TemplateWidgetSwitchPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 10);
     }
 
     public function getContainerExtension(): Extension

@@ -12,6 +12,25 @@ same commit as the change it describes.
 
 ## Unreleased
 
+### Changed: the entity template widgets are off unless the application enables them
+
+Whether a site offers `{widget:entity:find}` and `{widget:entity:findAll}` is now
+decided in one place, this bundle's configuration:
+
+```yaml
+entity:
+    template_widgets: true   # default false
+```
+
+With the switch on, the bundle registers both renderers itself. With it off, the
+default, neither reaches dtmpl's widget registry, including when an application's
+own service glob over `coolms/entity-application` registers them. That glob used
+to be how they were enabled, and it no longer is. A template that calls either
+widget with the switch off renders nothing in its place, as for any widget the
+registry does not know.
+
+An application that relies on the two widgets sets `template_widgets: true`.
+
 ### Fixed: a module's entity factories are served with autoconfiguration off
 
 `EntityFactoryRegistrationTrait::registerEntityFactory()` registered the
