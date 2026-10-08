@@ -10,7 +10,7 @@ major number means here.
 history when this file was created. Every entry after that is written in the
 same commit as the change it describes.
 
-## Unreleased
+## 2.0.0-alpha5 - 2026-10-09
 
 ### Changed: the entity template widgets are off unless the application enables them
 
