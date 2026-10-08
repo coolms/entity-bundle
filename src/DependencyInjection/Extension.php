@@ -159,14 +159,13 @@ final class Extension extends BaseExtension
         $container->setAlias(EntitySchemaProviderInterface::class, DoctrineEntitySchemaProvider::class)
             ->setPublic(false);
 
-        // ExtrasFieldMappingDriver decorates the central metadata driver to
-        // surface generated v_{name} virtual columns for non-Extras aliased
-        // entities. Uses DBAL Connection (not ORM repo) to avoid circular
+        // ExtrasFieldMappingDriver decorates the default entity manager's metadata
+        // driver (ExtrasInfrastructurePass names it) to surface generated
+        // v_{name} virtual columns for non-Extras aliased entities. Uses DBAL Connection (not ORM repo) to avoid circular
         // dependency with ORM (which needs metadata to boot). NamingStrategy
         // transforms the field name to its physical column form (snake_case
         // under the project's UnderscoreNamingStrategy).
         $container->register(ExtrasFieldMappingDriver::class)
-            ->setDecoratedService('doctrine.orm.central_metadata_driver', null, 0)
             ->setArgument('$delegate', new Reference('.inner'))
             ->setArgument('$aliasRegistry', new Reference(EntityAliasRegistry::class))
             ->setArgument('$namingStrategy', new Reference('doctrine.orm.naming_strategy.underscore'))
@@ -184,7 +183,6 @@ final class Extension extends BaseExtension
         // v_{name} columns -- but a tie decided by definition order is the kind
         // of thing that changes silently when a file moves.
         $container->register(TraitMappingDriver::class)
-            ->setDecoratedService('doctrine.orm.central_metadata_driver', null, 10)
             ->setArgument('$delegate', new Reference('.inner'))
             ->setAutowired(false)
             ->setAutoconfigured(false)

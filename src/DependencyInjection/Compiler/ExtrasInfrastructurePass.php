@@ -20,6 +20,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+use function is_string;
+use function sprintf;
+
 /**
  * Re-asserts wiring for ExtrasProvider infrastructure after the `App\:`
  * services.yaml resource scan, which would otherwise overwrite the
@@ -35,9 +38,34 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * A runtime-types module does the same for the narrow services that stay in
  * its own infrastructure.
+ *
+ * The two mapping drivers decorate the metadata driver of the application's
+ * default entity manager, as DoctrineBundle names it
+ * (`doctrine.orm.<name>_metadata_driver`). The name used to be written in, and
+ * it was one application's manager: an application whose default manager has
+ * another name -- `default`, which a stock DoctrineBundle configuration gives
+ * -- failed to compile, because a decorator of a service that does not exist
+ * is an error. With no ORM metadata driver at all there is nothing to
+ * decorate, so the two drivers are removed rather than left to fail the build.
  */
 final class ExtrasInfrastructurePass implements CompilerPassInterface
 {
+    /**
+     * The metadata driver of the default entity manager, or null when there is none to decorate.
+     */
+    public static function metadataDriverOf(ContainerBuilder $container): ?string
+    {
+        $manager = $container->hasParameter('doctrine.default_entity_manager')
+            ? $container->getParameter('doctrine.default_entity_manager')
+            : 'default';
+        if (!is_string($manager) || '' === $manager) {
+            return null;
+        }
+        $driver = sprintf('doctrine.orm.%s_metadata_driver', $manager);
+
+        return $container->has($driver) ? $driver : null;
+    }
+
     public function process(ContainerBuilder $container): void
     {
         // Optional: only present when a runtime-type module is
@@ -74,9 +102,15 @@ final class ExtrasInfrastructurePass implements CompilerPassInterface
             $def->setArgument('$aliasRegistry', $aliasRegistryRef);
         }
 
-        if ($container->has(ExtrasFieldMappingDriver::class)) {
+        $metadataDriver = self::metadataDriverOf($container);
+        if (null === $metadataDriver) {
+            $container->removeDefinition(ExtrasFieldMappingDriver::class);
+            $container->removeDefinition(TraitMappingDriver::class);
+        }
+
+        if (null !== $metadataDriver && $container->has(ExtrasFieldMappingDriver::class)) {
             $container->findDefinition(ExtrasFieldMappingDriver::class)
-                ->setDecoratedService('doctrine.orm.central_metadata_driver', null, 0)
+                ->setDecoratedService($metadataDriver, null, 0)
                 ->setArgument('$delegate', new Reference('.inner'))
                 ->setArgument('$aliasRegistry', $aliasRegistryRef)
                 ->setArgument('$namingStrategy', new Reference('doctrine.orm.naming_strategy.underscore'));
@@ -86,9 +120,9 @@ final class ExtrasInfrastructurePass implements CompilerPassInterface
         // loads after bundle extensions and replaces the definition, taking the
         // decoration with it. Without this the trait attributes are read by
         // nothing and every trait column silently disappears from the mapping.
-        if ($container->has(TraitMappingDriver::class)) {
+        if (null !== $metadataDriver && $container->has(TraitMappingDriver::class)) {
             $container->findDefinition(TraitMappingDriver::class)
-                ->setDecoratedService('doctrine.orm.central_metadata_driver', null, 10)
+                ->setDecoratedService($metadataDriver, null, 10)
                 ->setArgument('$delegate', new Reference('.inner'))
                 ->setAutowired(false);
         }
