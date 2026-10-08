@@ -10,6 +10,20 @@ major number means here.
 history when this file was created. Every entry after that is written in the
 same commit as the change it describes.
 
+## Unreleased
+
+### Fixed: an application whose default entity manager is not named `central` compiles
+
+`ExtrasFieldMappingDriver` and `TraitMappingDriver` decorated
+`doctrine.orm.central_metadata_driver`, a name written into the bundle. An
+application with any other default manager, such as the `default` that a stock
+DoctrineBundle configuration gives, failed to compile, because decorating a
+service that does not exist is an error. Both now decorate the metadata driver
+of the application's default entity manager, read from
+`doctrine.default_entity_manager`. With no metadata driver at all, the two are
+removed rather than left to fail the build. An application whose default manager
+is `central` sees no change.
+
 ## 2.0.0-alpha4 - 2026-10-07
 
 ### Added
