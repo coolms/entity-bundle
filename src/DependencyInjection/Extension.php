@@ -10,6 +10,7 @@ use CoolMS\Entity\Application\Resolver\RepositoryEntityAliasResolver;
 use CoolMS\Entity\Application\Serializer\ExtrasFlatteningNormalizer;
 use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
 use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
+use CoolMS\Entity\Bundle\DependencyInjection\Compiler\TemplateWidgetSwitchPass;
 use CoolMS\Entity\Bundle\Dtmpl\TemplateAliasResolver;
 use CoolMS\Entity\Bundle\Factory\EntityFactoryFactory;
 use CoolMS\Entity\Contract\EntityTypeSchemaContributorInterface;
@@ -106,6 +107,19 @@ final class Extension extends BaseExtension
             'coolms.entity.extras_validation.exclude',
             $config['extras_validation']['exclude'],
         );
+
+        // The entity template widgets: registered here, and only when the
+        // application enabled them. With the switch off, TemplateWidgetSwitchPass
+        // also takes the widget tag off any definition of the two renderers that
+        // an application's own service glob made.
+        $container->setParameter(TemplateWidgetSwitchPass::PARAMETER, $config['template_widgets']);
+        if (true === $config['template_widgets']) {
+            foreach (TemplateWidgetSwitchPass::RENDERERS as $renderer) {
+                $container->register($renderer)
+                    ->setAutowired(true)
+                    ->addTag(TemplateWidgetSwitchPass::WIDGET_TAG);
+            }
+        }
 
         $this->registerEntityFactories($container);
         $this->registerExtrasInfrastructure($container);

@@ -8,9 +8,12 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration tree for the Entity module. Today covers the
- * `extras_validation` block only -- which aliases have their required
+ * Configuration tree for the Entity module: the `template_widgets` switch,
+ * and the `extras_validation` block -- which aliases have their required
  * extras fields enforced by ExtrasValidationListener on save.
+ *
+ * `template_widgets` is off by default: `{widget:entity:find}` and
+ * `{widget:entity:findAll}` are offered only when enabled here.
  *
  * The block is OPT-IN and defaults to enforcing nothing, on purpose.
  * Enforcement rejects writes that succeed today, and a required field
@@ -28,6 +31,10 @@ final class Configuration implements ConfigurationInterface
 
         $root
             ->children()
+            ->booleanNode('template_widgets')
+            ->info('Registers {widget:entity:find} and {widget:entity:findAll}. Off unless enabled here.')
+            ->defaultFalse()
+            ->end()
             ->arrayNode('extras_validation')
             ->addDefaultsIfNotSet()
             ->info('Enforcement of `required` / `isRequired` extras fields on persist and update.')
