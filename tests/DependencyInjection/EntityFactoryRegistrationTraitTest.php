@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace CoolMS\Entity\Bundle\Tests\DependencyInjection;
 
+use CoolMS\Entity\Bundle\DependencyInjection\Extension;
 use CoolMS\Entity\Bundle\Factory\EntityFactory;
-use CoolMS\Entity\Bundle\Factory\EntityFactoryFactory;
 use CoolMS\Entity\Bundle\Tests\Fixture\CatalogExtension;
 use CoolMS\Entity\Bundle\Tests\Fixture\CategoryInterface;
 use CoolMS\Entity\Bundle\Tests\Fixture\ProductInterface;
 use CoolMS\Entity\Factory\EntityFactoryFactoryInterface;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
@@ -34,7 +33,8 @@ use Symfony\Component\Serializer\Serializer;
  * the framework's autoconfiguration tags every ServiceLocator
  * `container.service_locator`, and only that tag turns the inline definitions
  * into the lazy factories a locator needs. The compiled case below registers
- * the same rule. The fixture is the shape a consumer writes.
+ * the same rule, and takes the collecting side from this bundle's own
+ * extension. The fixture is the shape a consumer writes.
  */
 final class EntityFactoryRegistrationTraitTest extends TestCase
 {
@@ -100,18 +100,21 @@ final class EntityFactoryRegistrationTraitTest extends TestCase
         $container->register('serializer', Serializer::class);
         $container->register('parameter_bag', ParameterBag::class);
 
-        // The collecting side, as this bundle's extension registers it.
-        $container->register('coolms.entity_factory_locator', ServiceLocator::class)
-            ->addArgument(new TaggedIteratorArgument('coolms.entity_factory', 'entity'))
-            ->addTag('container.service_locator');
-        $container->register(EntityFactoryFactoryInterface::class, EntityFactoryFactory::class)
-            ->setArgument('$locator', new Reference('coolms.entity_factory_locator'))
-            ->setPublic(true);
+        // The collecting side, taken from this bundle's own extension rather than
+        // restated: its tag, its `entity` index and its decoration are what is
+        // under test. Only these two definitions are taken -- the rest of the
+        // extension decorates services a unit container does not have.
+        $bundle = new ContainerBuilder();
+        new Extension()->load([], $bundle);
+        foreach (['coolms.entity_factory_locator', EntityFactoryFactoryInterface::class] as $id) {
+            $container->setDefinition($id, $bundle->getDefinition($id));
+        }
+        $container->setAlias('test.entity_factories', EntityFactoryFactoryInterface::class)->setPublic(true);
 
         new CatalogExtension()->load([], $container);
         $container->compile();
 
-        $factories = $container->get(EntityFactoryFactoryInterface::class);
+        $factories = $container->get('test.entity_factories');
         self::assertInstanceOf(EntityFactoryFactoryInterface::class, $factories);
 
         foreach (CatalogExtension::ENTITIES as $entityClass) {
