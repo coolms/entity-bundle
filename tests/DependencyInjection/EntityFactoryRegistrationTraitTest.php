@@ -29,12 +29,12 @@ use Symfony\Component\Serializer\Serializer;
  * once per class. This bundle collects every such tag, indexed by its `entity`
  * attribute, into the locator behind EntityFactoryFactoryInterface.
  *
- * The module's locator is registered autoconfigured, and that is load-bearing:
- * the framework's autoconfiguration tags every ServiceLocator
- * `container.service_locator`, and only that tag turns the inline definitions
- * into the lazy factories a locator needs. The compiled case below registers
- * the same rule, and takes the collecting side from this bundle's own
- * extension. The fixture is the shape a consumer writes.
+ * The module's locator tags itself `container.service_locator`, the tag that
+ * turns the inline definitions into the lazy factories a locator needs. A
+ * full-stack application's autoconfiguration adds that tag to every
+ * ServiceLocator as well, so the compiled cases run with that rule and
+ * without it. Both take the collecting side from this bundle's own extension.
+ * The fixture is the shape a consumer writes.
  */
 final class EntityFactoryRegistrationTraitTest extends TestCase
 {
@@ -91,12 +91,33 @@ final class EntityFactoryRegistrationTraitTest extends TestCase
     }
 
     #[Test]
+    public function theLocatorTagsItselfAsAServiceLocator(): void
+    {
+        $locator = $this->loadCatalog()->getDefinition(self::LOCATOR);
+
+        self::assertTrue($locator->hasTag('container.service_locator'));
+    }
+
+    #[Test]
     public function theFactoriesAreServedByEntityClassOnceTheContainerIsCompiled(): void
+    {
+        $this->assertFactoriesServed($this->compiledFactories(autoconfiguration: true));
+    }
+
+    #[Test]
+    public function theFactoriesAreServedWithAutoconfigurationOff(): void
+    {
+        $this->assertFactoriesServed($this->compiledFactories(autoconfiguration: false));
+    }
+
+    private function compiledFactories(bool $autoconfiguration): object
     {
         $container = new ContainerBuilder();
 
-        // What a full-stack application provides.
-        $container->registerForAutoconfiguration(ServiceLocator::class)->addTag('container.service_locator');
+        // What a full-stack application provides, when it autoconfigures.
+        if ($autoconfiguration) {
+            $container->registerForAutoconfiguration(ServiceLocator::class)->addTag('container.service_locator');
+        }
         $container->register('serializer', Serializer::class);
         $container->register('parameter_bag', ParameterBag::class);
 
@@ -112,9 +133,16 @@ final class EntityFactoryRegistrationTraitTest extends TestCase
         $container->setAlias('test.entity_factories', EntityFactoryFactoryInterface::class)->setPublic(true);
 
         new CatalogExtension()->load([], $container);
+        if (!$autoconfiguration) {
+            $container->getDefinition(self::LOCATOR)->setAutoconfigured(false);
+        }
         $container->compile();
 
-        $factories = $container->get('test.entity_factories');
+        return $container->get('test.entity_factories');
+    }
+
+    private function assertFactoriesServed(object $factories): void
+    {
         self::assertInstanceOf(EntityFactoryFactoryInterface::class, $factories);
 
         foreach (CatalogExtension::ENTITIES as $entityClass) {

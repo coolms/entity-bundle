@@ -12,6 +12,16 @@ same commit as the change it describes.
 
 ## Unreleased
 
+### Fixed: a module's entity factories are served with autoconfiguration off
+
+`EntityFactoryRegistrationTrait::registerEntityFactory()` registered the
+module's factory locator autoconfigured and left its `container.service_locator`
+tag to autoconfiguration, which adds it to every `ServiceLocator` in a
+full-stack application. That tag is what turns the inline factory definitions
+into the lazy factories a locator serves, so in an application with
+autoconfiguration off the first `get()` failed. The locator now carries the tag
+itself. An application that autoconfigures sees no change.
+
 ### Fixed: an application whose default entity manager is not named `central` compiles
 
 `ExtrasFieldMappingDriver` and `TraitMappingDriver` decorated

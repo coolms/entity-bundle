@@ -40,7 +40,13 @@ trait EntityFactoryRegistrationTrait
             $factories[$entityClass] = $this->makeEntityFactory($entityClass);
             $definition->addTag('coolms.entity_factory', ['entity' => $entityClass]);
         }
+        // Tagged here, not left to autoconfiguration: `container.service_locator`
+        // is what turns the inline definitions into the lazy factories a locator
+        // serves. Autoconfiguration adds it to every ServiceLocator in a
+        // full-stack application, but an application that turns
+        // autoconfiguration off would get a locator whose first get() fails.
         $definition->setArgument('$factories', $factories)
+            ->addTag('container.service_locator')
             ->setAutowired(true)
             ->setAutoconfigured(true)
             ->setPublic(false);
