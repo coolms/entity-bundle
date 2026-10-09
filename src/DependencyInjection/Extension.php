@@ -28,6 +28,8 @@ use CoolMS\Entity\Registry\EntityAliasRegistryInterface;
 use CoolMS\Entity\Repository\EntitySchemaProviderInterface;
 use CoolMS\Entity\Resolver\EntityAliasResolverInterface;
 use CoolMS\Entity\Resolver\EntityResolverInterface;
+use CoolMS\Entity\Security\NoRecordIsReadable;
+use CoolMS\Entity\Security\RecordReadGuardInterface;
 use CoolMS\Entity\Service\EntitySchemaLookup;
 use CoolMS\Entity\VirtualField\VirtualFieldRegistry;
 use CoolMS\Entity\VirtualField\VirtualFieldRegistryInterface;
@@ -75,6 +77,12 @@ final class Extension extends BaseExtension
 
         // entity:find / entity:findAll widget adapter.
         $container->setAlias(EntityAliasResolverInterface::class, RepositoryEntityAliasResolver::class);
+
+        // The read guard every template read of a record asks. The default refuses every record and every
+        // predicate, so a host that declares nothing renders every record as unavailable, never as fully
+        // readable; a host points this alias at its own guard.
+        $container->register(NoRecordIsReadable::class);
+        $container->setAlias(RecordReadGuardInterface::class, NoRecordIsReadable::class);
 
         // Virtual-field registry.
         $container->setAlias(VirtualFieldRegistryInterface::class, VirtualFieldRegistry::class);

@@ -10,6 +10,17 @@ major number means here.
 history when this file was created. Every entry after that is written in the
 same commit as the change it describes.
 
+## Unreleased
+
+### Added: a default read guard that refuses every record
+
+The bundle registers `CoolMS\Entity\Security\NoRecordIsReadable` and aliases
+`RecordReadGuardInterface` to it. Every template read of a record asks that
+guard -- the default entity resolver, and the alias resolver and widgets when
+they are enabled -- so a host that declares nothing renders every record as
+unavailable, never as fully readable. A host points the alias at its own guard
+to say what a template may read.
+
 ## 2.0.0-alpha5 - 2026-10-09
 
 ### Changed: the entity template widgets are off unless the application enables them
