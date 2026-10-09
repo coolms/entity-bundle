@@ -21,6 +21,10 @@ they are enabled -- so a host that declares nothing renders every record as
 unavailable, never as fully readable. A host points the alias at its own guard
 to say what a template may read.
 
+The alias reaches only what the container builds. A resolver or widget a host
+constructs by hand gets its own built-in default, `NoRecordIsReadable`, whatever
+the alias names -- it fails closed -- so pass the guard to it yourself.
+
 ## 2.0.0-alpha5 - 2026-10-09
 
 ### Changed: the entity template widgets are off unless the application enables them
