@@ -8,6 +8,7 @@ use CoolMS\Dtmpl\Validation\AliasResolverInterface;
 use CoolMS\Entity\Application\Field\ReflectionEntityFieldDescriptor;
 use CoolMS\Entity\Application\Resolver\RepositoryEntityAliasResolver;
 use CoolMS\Entity\Application\Serializer\ExtrasFlatteningNormalizer;
+use CoolMS\Entity\Application\TaggedRepositoryRegistry;
 use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyMetadataFactory;
 use CoolMS\Entity\Bundle\ApiPlatform\Metadata\ExtrasPropertyNameCollectionFactory;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\TemplateWidgetSwitchPass;
@@ -25,6 +26,7 @@ use CoolMS\Entity\Factory\EntityFactoryFactoryInterface;
 use CoolMS\Entity\Field\EntityFieldDescriptorInterface;
 use CoolMS\Entity\Registry\EntityAliasRegistry;
 use CoolMS\Entity\Registry\EntityAliasRegistryInterface;
+use CoolMS\Entity\Registry\RepositoryRegistryInterface;
 use CoolMS\Entity\Repository\EntitySchemaProviderInterface;
 use CoolMS\Entity\Resolver\EntityAliasResolverInterface;
 use CoolMS\Entity\Resolver\EntityResolverInterface;
@@ -63,6 +65,12 @@ final class Extension extends BaseExtension
         // Author-facing entity-alias registry
         // (ClassMeta-driven). Bundles that ship dynamic alias sources
         // can override the alias to point at a composite implementation.
+        //
+        // Every alias here has its target registered beside it. An alias to a
+        // class nothing registers compiles only where the application scans the
+        // entity packages itself; one that installs the bundle alone failed on
+        // four of them (measured 2026-10-16, a bundle-only kernel).
+        $container->autowire(ClassMetaEntityAliasRegistry::class)->setAutoconfigured(true)->setPublic(false);
         $container->setAlias(EntityAliasRegistryInterface::class, ClassMetaEntityAliasRegistry::class);
 
         // The template validator's `@alias` dictionary, answered from the
@@ -73,9 +81,14 @@ final class Extension extends BaseExtension
         $container->setAlias(AliasResolverInterface::class, TemplateAliasResolver::class);
 
         // Reflection-based entity field descriptor.
+        $container->autowire(ReflectionEntityFieldDescriptor::class)->setAutoconfigured(true)->setPublic(false);
         $container->setAlias(EntityFieldDescriptorInterface::class, ReflectionEntityFieldDescriptor::class);
 
-        // entity:find / entity:findAll widget adapter.
+        // entity:find / entity:findAll widget adapter, and the repositories it
+        // reads from: every service tagged coolms.entity_repository, by entity type.
+        $container->autowire(TaggedRepositoryRegistry::class)->setAutoconfigured(true)->setPublic(false);
+        $container->setAlias(RepositoryRegistryInterface::class, TaggedRepositoryRegistry::class);
+        $container->autowire(RepositoryEntityAliasResolver::class)->setAutoconfigured(true)->setPublic(false);
         $container->setAlias(EntityAliasResolverInterface::class, RepositoryEntityAliasResolver::class);
 
         // The read guard every template read of a record asks. The default refuses every record and every
@@ -84,7 +97,8 @@ final class Extension extends BaseExtension
         $container->register(NoRecordIsReadable::class);
         $container->setAlias(RecordReadGuardInterface::class, NoRecordIsReadable::class);
 
-        // Virtual-field registry.
+        // Virtual-field registry. Its providers are bound by VirtualFieldServicesPass.
+        $container->autowire(VirtualFieldRegistry::class)->setPublic(false);
         $container->setAlias(VirtualFieldRegistryInterface::class, VirtualFieldRegistry::class);
 
         // Entity resolvers are collected into EntityResolverChain by this tag.

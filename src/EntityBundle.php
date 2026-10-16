@@ -6,6 +6,7 @@ namespace CoolMS\Entity\Bundle;
 
 use CoolMS\Core\Bundle\AbstractCoolmsBundle;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\ExtrasInfrastructurePass;
+use CoolMS\Entity\Bundle\DependencyInjection\Compiler\FieldSchemaSourceFallbackPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\FilterFieldContributorPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\ResolveTargetEntityPass;
 use CoolMS\Entity\Bundle\DependencyInjection\Compiler\TemplateWidgetSwitchPass;
@@ -47,6 +48,8 @@ class EntityBundle extends AbstractCoolmsBundle
         // autoconfigures FilterPredicateContributorInterface and injects the
         // tagged services into the visitor itself.
         $container->addCompilerPass(new VirtualFieldServicesPass());
+        // The field-schema port, bound to no runtime fields when no Field package has bound it.
+        $container->addCompilerPass(new FieldSchemaSourceFallbackPass());
         // Priority 50 is load-bearing, not decoration. The pass re-adds the
         // `doctrine.event_listener` tags that the `App\` glob strips off
         // ExtrasValidationListener, and DoctrineBundle's
