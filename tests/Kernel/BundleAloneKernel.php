@@ -8,7 +8,6 @@ use ApiPlatform\Symfony\Bundle\ApiPlatformBundle;
 use CoolMS\Core\Bundle\CoreBundle;
 use CoolMS\Entity\Bundle\EntityBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -97,8 +96,6 @@ final class BundleAloneKernel extends Kernel
             // defining it is the installing application's part.
             'messenger' => ['transports' => ['sync' => 'sync://']],
         ]);
-        $container->services()->set('logger', NullLogger::class);
-
         $container->extension('security', [
             'providers' => ['none' => ['memory' => ['users' => []]]],
             'firewalls' => ['main' => ['stateless' => true]],

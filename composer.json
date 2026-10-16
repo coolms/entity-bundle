@@ -41,7 +41,6 @@
         "coolms/entity-doctrine": "^2.0",
         "doctrine/doctrine-bundle": "^3.2",
         "phpunit/phpunit": "^12.5",
-        "psr/log": "^3.0",
         "symfony/filesystem": "^8.0",
         "symfony/http-client-contracts": "^3.5",
         "symfony/security-bundle": "^8.0",
