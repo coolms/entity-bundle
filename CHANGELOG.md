@@ -12,6 +12,24 @@ same commit as the change it describes.
 
 ## Unreleased
 
+### Fixed: the bundle alone compiles, and every alias it declares resolves
+
+Four aliases named classes nothing registered -- the alias registry, the field
+descriptor, the entity alias resolver and the virtual-field registry -- and the
+alias resolver's repository registry had no binding at all, so an application
+that installs the bundle without its own scan of the entity packages failed to
+compile as soon as anything asked for one of them. The extension now registers
+each target beside its alias.
+
+### Added: no runtime fields when no Field package is installed
+
+coolms/entity declares two ports the Field family fills: the runtime field
+schema and the field metadata. Without a Field package nothing bound them, and
+the schema lookup and the schema provider could not be built. The bundle now
+binds both to `CoolMS\Entity\Bundle\Field\NoRuntimeFields` -- no record-defined
+fields, no metadata, no file overrides -- only for a port no other package has
+bound, so an installed Field package always wins.
+
 ### Added: a default read guard that refuses every record
 
 The bundle registers `CoolMS\Entity\Security\NoRecordIsReadable` and aliases
