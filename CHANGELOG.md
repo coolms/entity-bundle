@@ -10,7 +10,15 @@ Versioning is described in the [CoolMS contributing guide](https://github.com/co
 history when this file was created. Every entry after that is written in the
 same commit as the change it describes.
 
-## Unreleased
+## 2.0.0-alpha6 - 2026-10-17
+
+### Changed: every coolms requirement names the release this one is built against
+
+coolms/core 2.0.0-alpha4, coolms/core-bundle 2.0.0-alpha7, coolms/entity
+2.0.0-alpha5 and coolms/entity-application 2.0.0-alpha3, or later. At `^2.0`
+the lowest versions still used their earlier namespaces, and coolms/entity
+before 2.0.0-alpha5 has no read guard, so an older sibling installed beside
+this release would leave classes undefined.
 
 ### Fixed: the bundle alone compiles, and every alias it declares resolves
 
