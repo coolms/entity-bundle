@@ -16,7 +16,6 @@ use CoolMS\Entity\Bundle\Dtmpl\TemplateAliasResolver;
 use CoolMS\Entity\Bundle\Factory\EntityFactoryFactory;
 use CoolMS\Entity\Contract\EntityTypeSchemaContributorInterface;
 use CoolMS\Entity\Contract\ExtrasNormalizationExclusionInterface;
-use CoolMS\Entity\Doctrine\Cache\ExtrasSchemaCacheInvalidator;
 use CoolMS\Entity\Doctrine\ClassMetaEntityAliasRegistry;
 use CoolMS\Entity\Doctrine\Listener\ExtrasValidationListener;
 use CoolMS\Entity\Doctrine\Mapping\ExtrasFieldMappingDriver;
@@ -263,11 +262,6 @@ final class Extension extends BaseExtension
             ->setDecoratedService('api_platform.metadata.property.name_collection_factory')
             ->setArgument('$delegate', new Reference('.inner'))
             ->setArgument('$aliasRegistry', new Reference(EntityAliasRegistry::class));
-
-        // $cache reference is fixed up by ExtrasInfrastructurePass (cache.app.taggable).
-        $container->register(ExtrasSchemaCacheInvalidator::class)
-            ->setArgument('$aliasRegistry', new Reference(EntityAliasRegistry::class))
-            ->setAutowired(true);
 
         // Modules that normalize a type themselves claim it here so the
         // flattening normalizer stands aside even when their higher-priority
